@@ -18,20 +18,17 @@ class Libro(BaseModel):
     autor: str
     usuario_id: int
 
-#CRUD DE USUARIOS
+# CRUD DE USUARIOS
 
-# Create
 @app.post("/usuarios/", response_model=Usuario)
 def crear_usuario(usuario: Usuario):
     usuarios_db.append(usuario)
     return usuario
 
-# Read
 @app.get("/usuarios/", response_model=List[Usuario])
 def leer_usuarios():
     return usuarios_db
 
-# Update
 @app.put("/usuarios/{usuario_id}", response_model=Usuario)
 def actualizar_usuario(usuario_id: int, usuario_actualizado: Usuario):
     for index, usuario in enumerate(usuarios_db):
@@ -40,7 +37,6 @@ def actualizar_usuario(usuario_id: int, usuario_actualizado: Usuario):
             return usuario_actualizado
     raise HTTPException(status_code=404, detail="Usuario no encontrado")
 
-# Delete
 @app.delete("/usuarios/{usuario_id}")
 def eliminar_usuario(usuario_id: int):
     for index, usuario in enumerate(usuarios_db):
@@ -50,20 +46,17 @@ def eliminar_usuario(usuario_id: int):
     raise HTTPException(status_code=404, detail="Usuario no encontrado")
 
 
-#CRUD DE LIBROS
+# CRUD DE LIBROS
 
-# Create
 @app.post("/libros/", response_model=Libro)
 def crear_libro(libro: Libro):
     libros_db.append(libro)
     return libro
 
-# Read
 @app.get("/libros/", response_model=List[Libro])
 def leer_libros():
     return libros_db
 
-# Update
 @app.put("/libros/{libro_id}", response_model=Libro)
 def actualizar_libro(libro_id: int, libro_actualizado: Libro):
     for index, libro in enumerate(libros_db):
@@ -72,7 +65,6 @@ def actualizar_libro(libro_id: int, libro_actualizado: Libro):
             return libro_actualizado
     raise HTTPException(status_code=404, detail="Libro no encontrado")
 
-# Delete
 @app.delete("/libros/{libro_id}")
 def eliminar_libro(libro_id: int):
     for index, libro in enumerate(libros_db):
@@ -80,3 +72,7 @@ def eliminar_libro(libro_id: int):
             del libros_db[index]
             return {"mensaje": "Libro eliminado"}
     raise HTTPException(status_code=404, detail="Libro no encontrado")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
